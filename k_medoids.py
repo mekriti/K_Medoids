@@ -33,7 +33,7 @@ def _get_cost(X, centers_id, dist_func):
                 dist_mat[i,j] = 0.
             else:
                 dist_mat[i,j] = dist_func(X[i,:], center)
-    #print 'cost ', -st+time.time()
+    #print( 'cost ', -st+time.time())
     mask = np.argmin(dist_mat,axis=1)
     members = np.zeros(len(X))
     costs = np.zeros(len(centers_id))
@@ -49,7 +49,7 @@ def _kmedoids_run(X, n_clusters, dist_func, max_iter=1000, tol=0.001, verbose=Tr
     n_samples, n_features = X.shape
     init_ids = _get_init_centers(n_clusters,n_samples)
     if verbose:
-        print 'Initial centers are ', init_ids
+        print( 'Initial centers are ', init_ids)
     centers = init_ids
     members, costs, tot_cost, dist_mat = _get_cost(X, init_ids,dist_func)
     cc,SWAPED = 0, True
@@ -66,14 +66,14 @@ def _kmedoids_run(X, n_clusters, dist_func, max_iter=1000, tol=0.001, verbose=Tr
                         centers = centers_
                         SWAPED = True
                         if verbose:
-                            print 'Change centers to ', centers
+                            print( 'Change centers to ', centers)
         if cc > max_iter:
             if verbose:
-                print 'End Searching by reaching maximum iteration', max_iter
+                print( 'End Searching by reaching maximum iteration', max_iter)
             break
         if not SWAPED:
             if verbose:
-                print 'End Searching by no swaps'
+                print( 'End Searching by no swaps')
             break
         cc += 1
     return centers,members, costs, tot_cost, dist_mat
@@ -81,26 +81,22 @@ def _kmedoids_run(X, n_clusters, dist_func, max_iter=1000, tol=0.001, verbose=Tr
 class KMedoids(object):
     '''
     Main API of KMedoids Clustering
-
     Parameters
     --------
         n_clusters: number of clusters
         dist_func : distance function
         max_iter: maximum number of iterations
         tol: tolerance
-
     Attributes
     --------
         labels_    :  cluster labels for each data item
         centers_   :  cluster centers id
         costs_     :  array of costs for each cluster
         n_iter_    :  number of iterations for the best trail
-
     Methods
     -------
         fit(X): fit the model
             - X: 2-D numpy array, size = (n_sample, n_features)
-
         predict(X): predict cluster id given a test dataset.
     '''
     def __init__(self, n_clusters, dist_func=_get_distance, max_iter=10000, tol=0.0001):
