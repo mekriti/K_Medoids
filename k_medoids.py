@@ -1,5 +1,5 @@
 '''
-Light Weight K-Medoids Implementation
+Light Weight K-Medoids Implementation for Python 3,using gower distance
 '''
 
 import numpy as np
